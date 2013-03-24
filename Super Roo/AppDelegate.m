@@ -6,20 +6,24 @@
 //  Copyright __MyCompanyName__ 2013. All rights reserved.
 //
 
-#import "cocos2d.h"
 
 #import "AppDelegate.h"
-#import "IntroLayer.h"
+
+#import "SplashLayer.h"
+
+
+
 
 @implementation AppController
 
+//static CustomScene* menuScene;
 @synthesize window=window_, navController=navController_, director=director_;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 	// Create the main window
 	window_ = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-
+    
 
 	// Create an CCGLView with a RGB565 color buffer, and a depth buffer of 0-bits
 	CCGLView *glView = [CCGLView viewWithFrame:[window_ bounds]
@@ -29,22 +33,32 @@
 									sharegroup:nil
 								 multiSampling:NO
 							   numberOfSamples:0];
+    
+
 
 	director_ = (CCDirectorIOS*) [CCDirector sharedDirector];
 
 	director_.wantsFullScreenLayout = YES;
 
 	// Display FSP and SPF
-	[director_ setDisplayStats:YES];
+	[director_ setDisplayStats:NO];
 
 	// set FPS at 60
 	[director_ setAnimationInterval:1.0/60];
 
+    
+    
+    
+    
+    //[director_ setView:background];
+    
 	// attach the openglView to the director
 	[director_ setView:glView];
 
 	// for rotation and other messages
 	[director_ setDelegate:self];
+    
+    //Audio
 
 	// 2D projection
 	[director_ setProjection:kCCDirectorProjection2D];
@@ -72,20 +86,30 @@
 	// Assume that PVR images have premultiplied alpha
 	[CCTexture2D PVRImagesHavePremultipliedAlpha:YES];
 
-	// and add the scene to the stack. The director will run it when it automatically when the view is displayed.
-	[director_ pushScene: [IntroLayer scene]]; 
+    
 
+
+	// and add the scene to the stack. The director will run it when it automatically when the view is displayed.
+	[director_ pushScene: [SplashLayer scene]];
+    //menuScene = [CustomScene node];
+    
+    //[menuScene updateBackgroundLayerWithNewLayer:[Background node]];
 	
 	// Create a Navigation Controller with the Director
 	navController_ = [[UINavigationController alloc] initWithRootViewController:director_];
 	navController_.navigationBarHidden = YES;
-	
+    
 	// set the Navigation Controller as the root view controller
 //	[window_ addSubview:navController_.view];	// Generates flicker.
 	[window_ setRootViewController:navController_];
+    
 	
+    
+    
 	// make main window visible
 	[window_ makeKeyAndVisible];
+    
+    
 	
 	return YES;
 }
@@ -148,5 +172,31 @@
 
 	[super dealloc];
 }
++ (void) saveSkillLevel:(NSInteger) inp{
+    
+	NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    [prefs setInteger:inp forKey:@"skillLevel"];
+}
++ (NSInteger) getSkillLevel{
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    // getting the string
+    return [prefs integerForKey:@"skillLevel"];
+}
+
++ (NSInteger) getSkillFromSegmentControl:(id) sender{
+    UISegmentedControl *segmentedControl = (UISegmentedControl *)sender;
+    return [segmentedControl selectedSegmentIndex];
+}
+//+(CustomScene*) menuScene{return menuScene;}
++(void) setBackgroundMute:(BOOL)inp{
+    NSUserDefaults *prefs =[NSUserDefaults standardUserDefaults];
+    [prefs setBool: inp forKey:@"backgroundMute"];
+    
+}
++ (BOOL) backgroundMute{
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    return [prefs boolForKey:@"backgroundMute"];
+}
+
 @end
 

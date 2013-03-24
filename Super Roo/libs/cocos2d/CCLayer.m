@@ -602,6 +602,10 @@
 	[super dealloc];
 }
 
+-(unsigned int) count{
+    return [layers_ count];
+}
+
 -(void) switchTo: (unsigned int) n
 {
 	NSAssert( n < [layers_ count], @"Invalid index in MultiplexLayer switchTo message" );
@@ -611,6 +615,11 @@
 	enabledLayer_ = n;
 
 	[self addChild: [layers_ objectAtIndex:n]];
+}
+
+-(void) addLayer: (CCLayer*) inlayer{
+    [layers_ addObject: inlayer];
+    [self addChild: [layers_ objectAtIndex: [layers_ count]]];
 }
 
 -(void) switchToAndReleaseMe: (unsigned int) n

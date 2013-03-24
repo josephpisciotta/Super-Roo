@@ -271,6 +271,8 @@ the background.
 /** switches to a certain layer indexed by n.
  The current (old) layer will be removed from its parent with 'cleanup:YES'.
  */
+-(unsigned int)count;
+-(void) addLayer: (CCLayer*) inlayer;
 -(void) switchTo: (unsigned int) n;
 /** release the current layer and switches to another layer indexed by n.
  The current (old) layer will be removed from its parent with 'cleanup:YES'.

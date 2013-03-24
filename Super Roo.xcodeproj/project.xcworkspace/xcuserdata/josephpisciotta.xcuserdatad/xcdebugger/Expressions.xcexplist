@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "+[MainScreenLayer addLayerToScene:withOld:]:MainScreenLayer.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "[[[CCDirector sharedDirector] runningScene] children] ">
+            </PersistentString>
+            <PersistentString
+               value = "[[[[CCDirector sharedDirector] runningScene] children] lastObject]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>
